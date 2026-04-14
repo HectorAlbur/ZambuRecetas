@@ -24,4 +24,9 @@
         android:name="com.example.zamburecetas.ResetPassword"
         android:label="fragment_reset_password"
         tools:layout="@layout/fragment_reset_password" />
+    <fragment
+        android:id="@+id/personalInfo"
+        android:name="com.example.zamburecetas.PersonalInfo"
+        android:label="fragment_personal_info"
+        tools:layout="@layout/fragment_personal_info" />
 </navigation>
