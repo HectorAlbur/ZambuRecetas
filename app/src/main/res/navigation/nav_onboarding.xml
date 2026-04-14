@@ -19,4 +19,9 @@
         android:name="com.example.zamburecetas.Register"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" />
+    <fragment
+        android:id="@+id/resetPassword"
+        android:name="com.example.zamburecetas.ResetPassword"
+        android:label="fragment_reset_password"
+        tools:layout="@layout/fragment_reset_password" />
 </navigation>
