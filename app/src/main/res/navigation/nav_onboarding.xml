@@ -7,26 +7,37 @@
 
     <fragment
         android:id="@+id/login"
-        android:name="com.example.zamburecetas.Login"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
+        android:name="com.example.zamburecetas.onboarding.signIn.Login"
+        android:label="Login"
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_login_to_register"
             app:destination="@id/register" />
+        <action
+            android:id="@+id/action_login_to_resetPassword"
+            app:destination="@id/resetPassword" />
     </fragment>
+
     <fragment
         android:id="@+id/register"
-        android:name="com.example.zamburecetas.Register"
-        android:label="fragment_register"
-        tools:layout="@layout/fragment_register" />
+        android:name="com.example.zamburecetas.onboarding.signUp.Register"
+        android:label="Register"
+        tools:layout="@layout/fragment_register">
+        <action
+            android:id="@+id/action_register_to_personalInfo"
+            app:destination="@id/personalInfo" />
+    </fragment>
+
     <fragment
         android:id="@+id/resetPassword"
         android:name="com.example.zamburecetas.ResetPassword"
-        android:label="fragment_reset_password"
+        android:label="ResetPassword"
         tools:layout="@layout/fragment_reset_password" />
+
     <fragment
         android:id="@+id/personalInfo"
-        android:name="com.example.zamburecetas.PersonalInfo"
-        android:label="fragment_personal_info"
+        android:name="com.example.zamburecetas.onboarding.personal.PersonalInfo"
+        android:label="PersonalInfo"
         tools:layout="@layout/fragment_personal_info" />
+
 </navigation>
