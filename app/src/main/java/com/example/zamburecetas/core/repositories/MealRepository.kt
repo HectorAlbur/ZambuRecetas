@@ -9,7 +9,7 @@ import kotlinx.coroutines.withContext
 
 class MealRepository : MealService {
 
-    private val api = ApiClient.MealAPI
+    private val api = ApiClient.api
 
     override suspend fun getMeals(): ResponseService<List<Meal>> =
         withContext(Dispatchers.IO) {
@@ -26,9 +26,7 @@ class MealRepository : MealService {
                     ResponseService.Error("Error ${response.code()}: ${response.message()}")
                 }
             } catch (e: Exception) {
-                ResponseService.Error(
-                    "No se pudieron cargar las recetas: ${e.localizedMessage}"
-                )
+                ResponseService.Error("No se pudieron cargar las recetas: ${e.localizedMessage}")
             }
         }
 }
