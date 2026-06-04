@@ -8,19 +8,33 @@
     <fragment
         android:id="@+id/recipesFragment"
         android:name="com.example.zamburecetas.home.recipes.RecipesFragment"
-        android:label="Recetas"
-        tools:layout="@layout/fragment_recipes" />
+        android:label="fragment_recipes"
+        tools:layout="@layout/fragment_recipes">
+        <action
+            android:id="@+id/action_recipesFragment_to_recipeDetailFragment"
+            app:destination="@id/recipeDetailFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/favoritesFragment"
         android:name="com.example.zamburecetas.home.favorites.FavoritesFragment"
-        android:label="Favoritos"
+        android:label="fragment_favorites"
         tools:layout="@layout/fragment_favorites" />
 
     <fragment
         android:id="@+id/accountFragment"
         android:name="com.example.zamburecetas.home.account.AccountFragment"
-        android:label="Perfil"
+        android:label="fragment_account"
         tools:layout="@layout/fragment_account" />
+
+    <fragment
+        android:id="@+id/recipeDetailFragment"
+        android:name="com.example.zamburecetas.home.recipes.RecipeDetailFragment"
+        android:label="fragment_recipe_detail"
+        tools:layout="@layout/fragment_recipe_detail">
+        <argument
+            android:name="meal"
+            app:argType="com.example.zamburecetas.core.model.Meal" />
+    </fragment>
 
 </navigation>

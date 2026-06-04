@@ -1,14 +1,20 @@
 package com.example.zamburecetas.core.model
 
+import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
+
 data class MealResponse(
-    val meals: List<Meal>
+   @SerializedName("meals") val meals: List<Meal>
 )
 
+@Parcelize
+
 data class Meal(
-    val idMeal: String,
-    val strMeal: String,
-    val strCategory: String,
-    val strInstructions: String,
-    val strMealThumb: String,
-    val strIngredients: List<String>
-)
+   @SerializedName("idMeal") val idMeal: String,
+   @SerializedName("strMeal") val strMeal: String,
+   @SerializedName("strCategory") val strCategory: String,
+   @SerializedName("strInstructions") val strInstructions: String,
+   @SerializedName("strMealThumb") val strMealThumb: String,
+   @SerializedName("strIngredients") val strIngredients: List<String>
+) : Parcelable

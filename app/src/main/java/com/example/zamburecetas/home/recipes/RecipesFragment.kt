@@ -10,12 +10,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.zamburecetas.core.FragmentCommunicator
 import com.example.zamburecetas.core.ResponseService
 import com.example.zamburecetas.databinding.FragmentRecipesBinding
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
+import com.example.zamburecetas.R
 
 class RecipesFragment : Fragment() {
 
@@ -24,7 +26,10 @@ class RecipesFragment : Fragment() {
     private val viewModel by viewModels<RecipesViewModel>()
     private lateinit var communicator: FragmentCommunicator
     private val adapter = RecipeAdapter { meal ->
-        // TODO: navegar al detalle
+        val bundle = Bundle().apply { putParcelable("meal", meal) }
+        findNavController().navigate(
+            R.id.action_recipesFragment_to_recipeDetailFragment, bundle
+        )
     }
 
     override fun onCreateView(
@@ -45,9 +50,7 @@ class RecipesFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.mealState.collect { state ->
                     when (state) {
-                        is ResponseService.Loading -> {
-                            communicator.manageLoader(true)
-                        }
+                        is ResponseService.Loading -> communicator.manageLoader(true)
                         is ResponseService.Success -> {
                             communicator.manageLoader(false)
                             adapter.submitList(state.data)
