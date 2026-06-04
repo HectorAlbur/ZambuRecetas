@@ -19,6 +19,8 @@ import com.example.zamburecetas.databinding.FragmentLoginBinding
 import com.example.zamburecetas.home.HomeActivity
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
+import com.example.zamburecetas.onboarding.signIn.SignInViewModel
+import com.example.zamburecetas.onboarding.ResetPassword
 
 class Login : Fragment() {
 
@@ -72,7 +74,13 @@ class Login : Fragment() {
         binding.restorePasswordText.setOnClickListener {
             findNavController().navigate(R.id.action_login_to_resetPassword)
         }
+
+        binding.restorePasswordText.setOnClickListener {
+            findNavController().navigate(R.id.action_login_to_resetPassword)
+        }
     }
+
+
 
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launch {

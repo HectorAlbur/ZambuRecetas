@@ -30,7 +30,7 @@
 
     <fragment
         android:id="@+id/resetPassword"
-        android:name="com.example.zamburecetas.ResetPassword"
+        android:name="com.example.zamburecetas.onboarding.ResetPassword"
         android:label="ResetPassword"
         tools:layout="@layout/fragment_reset_password" />
 
@@ -39,5 +39,23 @@
         android:name="com.example.zamburecetas.onboarding.personal.PersonalInfo"
         android:label="PersonalInfo"
         tools:layout="@layout/fragment_personal_info" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.zamburecetas.onboarding.signIn.Login"
+        android:label="Login"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_login_to_register"
+            app:destination="@id/register" />
+        <action
+            android:id="@+id/action_login_to_resetPassword"
+            app:destination="@id/resetPassword" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/resetPassword"
+        android:name="com.example.zamburecetas.onboarding.ResetPassword"
+        android:label="ResetPassword"
+        tools:layout="@layout/fragment_reset_password" />
 
 </navigation>
