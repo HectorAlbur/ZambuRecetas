@@ -1,60 +1,87 @@
 package com.example.zamburecetas.home.favorites
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.zamburecetas.R
+import com.example.zamburecetas.core.model.Meal
+import com.example.zamburecetas.databinding.FragmentFavoritesBinding
+import com.example.zamburecetas.home.favorites.model.FavoriteRecipe
+import kotlinx.coroutines.launch
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [FavoritesFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class FavoritesFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentFavoritesBinding? = null
+    private val binding get() = _binding!!
+    private val viewModel by viewModels<FavoritesViewModel>()
+    private lateinit var adapter: FavoriteAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorites, container, false)
+    ): View {
+        _binding = FragmentFavoritesBinding.inflate(inflater, container, false)
+        setupRecyclerView()
+        observeState()
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FavoritesFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FavoritesFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadFavorites()
+    }
+
+    private fun setupRecyclerView() {
+        adapter = FavoriteAdapter(
+            onItemClick = { favorite -> navigateToDetail(favorite) },
+            onRemoveClick = { favorite -> viewModel.removeFavorite(favorite) }
+        )
+        binding.rvFavorites.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvFavorites.adapter = adapter
+    }
+
+    private fun navigateToDetail(favorite: FavoriteRecipe) {
+        val meal = Meal(
+            idMeal = favorite.idMeal,
+            strMeal = favorite.strMeal,
+            strCategory = favorite.strCategory,
+            strInstructions = favorite.strInstructions,
+            strMealThumb = favorite.strMealThumb,
+            strIngredients = favorite.strIngredients
+        )
+        val bundle = Bundle().apply { putParcelable("meal", meal) }
+        findNavController().navigate(
+            R.id.action_favoritesFragment_to_recipeDetailFragment, bundle
+        )
+    }
+
+    private fun observeState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.favorites.collect { favorites ->
+                    adapter.submitList(favorites)
+                    if (favorites.isEmpty()) {
+                        binding.rvFavorites.visibility = View.GONE
+                        binding.layoutEmpty.visibility = View.VISIBLE
+                    } else {
+                        binding.rvFavorites.visibility = View.VISIBLE
+                        binding.layoutEmpty.visibility = View.GONE
+                    }
                 }
             }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
